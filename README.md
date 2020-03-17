@@ -9,7 +9,7 @@ $ cargo install --path .
 ```
 
 ## usage
-```
+```bash
 $ jobcan
 退室中 -> 勤務中
 

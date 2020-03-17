@@ -2,6 +2,7 @@ use headless_chrome::Browser;
 use seahorse::{color, App, Context, Flag, FlagType};
 use std::env;
 use std::process;
+use spinners::{Spinner, Spinners};
 
 fn jobcan_punch_in(email: String, password: String) -> Result<String, failure::Error> {
     let browser = Browser::default()?;
@@ -28,6 +29,7 @@ fn jobcan_punch_in(email: String, password: String) -> Result<String, failure::E
         .node_value
         .to_owned();
 
+    // TODO
     // tab.wait_for_element("p#adit-button-push")?.click()?;
 
     let after_status = tab
@@ -38,18 +40,20 @@ fn jobcan_punch_in(email: String, password: String) -> Result<String, failure::E
         .node_value
         .to_owned();
 
-    Ok(format!("{} -> {}", before_status, after_status))
+    Ok(format!("{} -> {}", color::yellow(before_status), color::green(after_status)))
 }
 
 fn action(c: &Context) {
+    let sp = Spinner::new(Spinners::Dots9, color::green("Waiting..."));
+
     let email = match c.string_flag("email") {
         Some(email) => email,
         None => match env::var("JOBCAN_EMAIL") {
             Ok(email) => email,
             Err(_) => {
                 eprintln!(
-                    "{}",
-                    color::red("Nof found enviroment variable \"JOBCAN_EMAIL\".")
+                    "\n{}",
+                    color::red("Not found enviroment variable \"JOBCAN_EMAIL\".")
                 );
                 process::exit(1);
             }
@@ -61,20 +65,21 @@ fn action(c: &Context) {
             Ok(pass) => pass,
             Err(_) => {
                 eprintln!(
-                    "{}",
-                    color::red("Nof found enviroment variable \"JOBCAN_PASSWORD\".")
+                    "\n{}",
+                    color::red("Not found enviroment variable \"JOBCAN_PASSWORD\".")
                 );
                 process::exit(1);
             }
         },
     };
     match jobcan_punch_in(email, password) {
-        Ok(s) => println!("{}", s),
+        Ok(s) => println!("\n{}", s),
         Err(_) => {
-            eprintln!("Failed punch in.");
+            eprintln!("\nFailed punch in.");
             process::exit(1);
         }
     }
+    sp.stop();
 }
 
 fn main() {
