@@ -44,7 +44,7 @@ fn jobcan_punch_in(email: String, password: String) -> Result<String, failure::E
 }
 
 fn action(c: &Context) {
-    let sp = Spinner::new(Spinners::Dots9, color::green("Waiting..."));
+    let sp = Spinner::new(Spinners::Moon, color::green("Waiting..."));
 
     let email = match c.string_flag("email") {
         Some(email) => email,
@@ -52,7 +52,7 @@ fn action(c: &Context) {
             Ok(email) => email,
             Err(_) => {
                 eprintln!(
-                    "\n{}",
+                    "\r{}",
                     color::red("Not found enviroment variable \"JOBCAN_EMAIL\".")
                 );
                 process::exit(1);
@@ -65,7 +65,7 @@ fn action(c: &Context) {
             Ok(pass) => pass,
             Err(_) => {
                 eprintln!(
-                    "\n{}",
+                    "\r{}",
                     color::red("Not found enviroment variable \"JOBCAN_PASSWORD\".")
                 );
                 process::exit(1);
@@ -73,9 +73,9 @@ fn action(c: &Context) {
         },
     };
     match jobcan_punch_in(email, password) {
-        Ok(s) => println!("\n{}", s),
+        Ok(s) => println!("\r{}", s),
         Err(_) => {
-            eprintln!("\nFailed punch in.");
+            eprintln!("\rFailed punch in.");
             process::exit(1);
         }
     }
