@@ -1,8 +1,10 @@
 use headless_chrome::Browser;
 use seahorse::{color, App, Context, Flag, FlagType};
+use spinners::{Spinner, Spinners};
 use std::env;
 use std::process;
-use spinners::{Spinner, Spinners};
+use std::thread;
+use std::time::Duration;
 
 fn jobcan_punch_in(email: String, password: String) -> Result<String, failure::Error> {
     let browser = Browser::default()?;
@@ -29,8 +31,8 @@ fn jobcan_punch_in(email: String, password: String) -> Result<String, failure::E
         .node_value
         .to_owned();
 
-    // TODO
-    // tab.wait_for_element("p#adit-button-push")?.click()?;
+    tab.wait_for_element("p#adit-button-push")?.click()?;
+    thread::sleep(Duration::from_secs(2));
 
     let after_status = tab
         .wait_for_element("div#working_status")?
@@ -40,7 +42,11 @@ fn jobcan_punch_in(email: String, password: String) -> Result<String, failure::E
         .node_value
         .to_owned();
 
-    Ok(format!("{} -> {}", color::yellow(before_status), color::green(after_status)))
+    Ok(format!(
+        "{} -> {}",
+        color::yellow(before_status),
+        color::green(after_status)
+    ))
 }
 
 fn action(c: &Context) {

@@ -11,7 +11,7 @@ $ cargo install --path .
 ## usage
 ```bash
 $ jobcan
-退室中 -> 勤務中
+未出勤 -> 勤務中
 
 $ jobcan --email test@test.com --password hogefuga
 勤務中 -> 退室中
