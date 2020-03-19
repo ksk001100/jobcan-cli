@@ -13,6 +13,24 @@ $ cargo install --path .
 また、環境変数よりオプション引数のほうが優先されます。
 
 ```bash
+$ jobcan --help
+Name:
+	jobcan
+
+Author:
+	ksk001100 <hm.pudding0715@gmail.com>
+
+Description:
+	ジョブカン勤怠管理の打刻CLI
+
+Usage:
+	jobcan
+	jobcan --email(-e) [email]
+	jobcan --password(-p) [password]
+
+Version:
+	0.1.0
+
 $ jobcan
 未出勤 -> 勤務中
 

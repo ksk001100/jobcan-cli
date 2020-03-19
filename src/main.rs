@@ -93,7 +93,7 @@ fn main() {
 
     let email_flag = Flag::new("email", "jobcan --email(-e) [email]", FlagType::String).alias("e");
     let pass_flag =
-        Flag::new("email", "jobcan --password(-p) [email]", FlagType::String).alias("p");
+        Flag::new("email", "jobcan --password(-p) [password]", FlagType::String).alias("p");
 
     let app = App::new()
         .name(color::blue(env!("CARGO_PKG_NAME")))
