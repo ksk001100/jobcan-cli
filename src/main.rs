@@ -1,10 +1,7 @@
 use headless_chrome::Browser;
 use seahorse::{color, App, Context, Flag, FlagType};
 use spinners::{Spinner, Spinners};
-use std::env;
-use std::process;
-use std::thread;
-use std::time::Duration;
+use std::{env, process, thread, time::Duration};
 
 fn jobcan_punch_in(email: String, password: String) -> Result<String, failure::Error> {
     let browser = Browser::default()?;
@@ -92,8 +89,12 @@ fn main() {
     let args: Vec<String> = ::std::env::args().collect();
 
     let email_flag = Flag::new("email", "jobcan --email(-e) [email]", FlagType::String).alias("e");
-    let pass_flag =
-        Flag::new("email", "jobcan --password(-p) [password]", FlagType::String).alias("p");
+    let pass_flag = Flag::new(
+        "email",
+        "jobcan --password(-p) [password]",
+        FlagType::String,
+    )
+    .alias("p");
 
     let app = App::new()
         .name(color::blue(env!("CARGO_PKG_NAME")))
