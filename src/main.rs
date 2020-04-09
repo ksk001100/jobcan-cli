@@ -10,29 +10,34 @@ fn jobcan_punch_in(email: String, password: String) -> Result<String, failure::E
 
     tab.navigate_to(url)?;
 
-    tab.wait_for_element("input#user_email")?.click()?;
+    tab.wait_for_element_with_custom_timeout("input#user_email", Duration::from_secs(60))?
+        .click()?;
     tab.type_str(&email)?;
 
-    tab.wait_for_element("input#user_password")?.click()?;
+    tab.wait_for_element_with_custom_timeout("input#user_password", Duration::from_secs(60))?
+        .click()?;
     tab.type_str(&password)?;
 
-    tab.wait_for_element("input.form__login")?.click()?;
+    tab.wait_for_element_with_custom_timeout("input.form__login", Duration::from_secs(60))?
+        .click()?;
 
     tab.wait_for_url("https://ssl.jobcan.jp/employee")?;
+    thread::sleep(Duration::from_secs(2));
 
     let before_status = tab
-        .wait_for_element("div#working_status")?
+        .wait_for_element_with_custom_timeout("div#working_status", Duration::from_secs(60))?
         .get_description()?
         .find(|n| n.node_name == "#text")
         .unwrap()
         .node_value
         .to_owned();
 
-    tab.wait_for_element("p#adit-button-push")?.click()?;
-    thread::sleep(Duration::from_secs(2));
+    tab.wait_for_element_with_custom_timeout("p#adit-button-push", Duration::from_secs(60))?
+        .click()?;
+    thread::sleep(Duration::from_secs(3));
 
     let after_status = tab
-        .wait_for_element("div#working_status")?
+        .wait_for_element_with_custom_timeout("div#working_status", Duration::from_secs(60))?
         .get_description()?
         .find(|n| n.node_name == "#text")
         .unwrap()
