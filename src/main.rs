@@ -55,8 +55,8 @@ fn action(c: &Context) {
     let sp = Spinner::new(Spinners::Moon, color::green("Waiting..."));
 
     let email = match c.string_flag("email") {
-        Some(email) => email,
-        None => match env::var("JOBCAN_EMAIL") {
+        Ok(email) => email,
+        Err(_) => match env::var("JOBCAN_EMAIL") {
             Ok(email) => email,
             Err(_) => {
                 eprintln!(
@@ -68,8 +68,8 @@ fn action(c: &Context) {
         },
     };
     let password = match c.string_flag("password") {
-        Some(pass) => pass,
-        None => match env::var("JOBCAN_PASSWORD") {
+        Ok(pass) => pass,
+        Err(_) => match env::var("JOBCAN_PASSWORD") {
             Ok(pass) => pass,
             Err(_) => {
                 eprintln!(
@@ -93,16 +93,14 @@ fn action(c: &Context) {
 fn main() {
     let args: Vec<String> = ::std::env::args().collect();
 
-    let email_flag = Flag::new("email", "jobcan --email(-e) [email]", FlagType::String).alias("e");
-    let pass_flag = Flag::new(
-        "email",
-        "jobcan --password(-p) [password]",
-        FlagType::String,
-    )
-    .alias("p");
+    let email_flag = Flag::new("email", FlagType::String)
+        .usage("jobcan --email(-e) [email]")
+        .alias("e");
+    let pass_flag = Flag::new("email", FlagType::String)
+        .usage("jobcan --password(-p) [password]")
+        .alias("p");
 
-    let app = App::new()
-        .name(color::blue(env!("CARGO_PKG_NAME")))
+    let app = App::new(color::blue(env!("CARGO_PKG_NAME")))
         .author(env!("CARGO_PKG_AUTHORS"))
         .description(env!("CARGO_PKG_DESCRIPTION"))
         .usage("jobcan")
