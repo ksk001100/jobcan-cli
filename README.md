@@ -14,19 +14,25 @@ $ cargo install --path .
 
 ```bash
 $ jobcan --help
-Name:
+Name
 	jobcan
 
 Author:
 	ksk001100 <hm.pudding0715@gmail.com>
 
 Description:
-	ジョブカン勤怠管理の打刻CLI
+	ジョブカン勤怠管理の打刻 CLI
 
 Usage:
 	jobcan
 	jobcan --email(-e) [email]
 	jobcan --password(-p) [password]
+
+
+Commands:
+	status : jobcan status
+	         jobcan status(s) --email(-e) [email]
+	         jobcan status(s) --password(-p) [password]
 
 Version:
 	0.1.0
@@ -37,6 +43,12 @@ $ jobcan
 $ jobcan --email test@test.com --password hogefuga
 勤務中 -> 退室中
 
+$ jobcan status
+ステータス : 退室中
+
 $ jobcan -e test@test.com -p hogefuga
 退室中 -> 勤務中
+
+$ jobcan s -e test@test.com -p hogefuga
+ステータス : 勤務中
 ```
