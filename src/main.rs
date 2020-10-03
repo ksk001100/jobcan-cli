@@ -1,5 +1,6 @@
 mod lib;
 
+use chrono::prelude::*;
 use headless_chrome::Browser;
 use lib::Jobcan;
 use seahorse::{color, App, Command, Context, Flag, FlagType};
@@ -112,9 +113,51 @@ fn pto_action(c: &Context) {
     let sp = Spinner::new(Spinners::Moon, color::green("Waiting..."));
 
     let (start_date, end_date, reason) = if c.args.len() == 2 {
-        (c.args[0].clone(), c.args[1].clone(), String::new())
+        let start_date = match NaiveDate::parse_from_str(&c.args[0], "%Y-%m-%d") {
+            Ok(date) => date,
+            Err(_) => {
+                eprintln!(
+                    "\r{}",
+                    color::red("start_date format error. (ex: \"2020-01-01\")")
+                );
+                std::process::exit(1);
+            }
+        };
+        let end_date = match NaiveDate::parse_from_str(&c.args[1], "%Y-%m-%d") {
+            Ok(date) => date,
+            Err(_) => {
+                eprintln!(
+                    "\r{}",
+                    color::red("end_date format error. (ex: \"2020-01-01\")")
+                );
+                std::process::exit(1);
+            }
+        };
+
+        (start_date, end_date, String::new())
     } else if c.args.len() >= 3 {
-        (c.args[0].clone(), c.args[1].clone(), c.args[2..].join(" "))
+        let start_date = match NaiveDate::parse_from_str(&c.args[0], "%Y-%m-%d") {
+            Ok(date) => date,
+            Err(_) => {
+                eprintln!(
+                    "\r{}",
+                    color::red("start_date format error. (ex: \"2020-01-01\")")
+                );
+                std::process::exit(1);
+            }
+        };
+        let end_date = match NaiveDate::parse_from_str(&c.args[1], "%Y-%m-%d") {
+            Ok(date) => date,
+            Err(_) => {
+                eprintln!(
+                    "\r{}",
+                    color::red("end_date format error. (ex: \"2020-01-01\")")
+                );
+                std::process::exit(1);
+            }
+        };
+
+        (start_date, end_date, c.args[2..].join(" "))
     } else {
         eprintln!("\r{}", color::red("Arugment error."));
         process::exit(1);

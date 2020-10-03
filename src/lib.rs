@@ -66,8 +66,8 @@ impl Jobcan {
     pub fn pto(
         &self,
         tab: &Arc<Tab>,
-        start_date: String,
-        end_date: String,
+        start_date: NaiveDate,
+        end_date: NaiveDate,
         reason: String,
     ) -> Result<(), failure::Error> {
         tab.wait_for_element_with_custom_timeout("a#menu_order_img", Duration::from_secs(10))?
@@ -79,23 +79,7 @@ impl Jobcan {
         tab.wait_for_element_with_custom_timeout("span.btn", Duration::from_secs(10))?
             .click()?;
 
-        let today = Local::now().date();
-        let start_date = {
-            let a = start_date
-                .split("-")
-                .map(|n| n.parse::<i32>().unwrap())
-                .into_iter()
-                .collect::<Vec<i32>>();
-            FixedOffset::east(9 * 3600).ymd(a[0], a[1] as u32, a[2] as u32)
-        };
-        let end_date = {
-            let a = end_date
-                .split("-")
-                .map(|n| n.parse::<i32>().unwrap())
-                .into_iter()
-                .collect::<Vec<i32>>();
-            FixedOffset::east(9 * 3600).ymd(a[0], a[1] as u32, a[2] as u32)
-        };
+        let today = Local::today();
 
         let diff_start_year: i32 = today.year() - start_date.year();
         let diff_start_month: i32 = today.month() as i32 - start_date.month() as i32;
