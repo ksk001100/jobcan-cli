@@ -21,7 +21,7 @@ Author:
         ksk001100 <hm.pudding0715@gmail.com>
 
 Description:
-        ジョブカン勤怠管理の打刻 CLI
+        ジョブカン CLI
 
 Usage:
         jobcan
@@ -41,23 +41,31 @@ Commands:
 Version:
         0.1.0
 
+```
 
-
+### 打刻
+```bash
 $ jobcan
 未出勤 -> 勤務中
 
 $ jobcan --email test@test.com --password hogefuga
 勤務中 -> 退室中
 
+$ jobcan -e test@test.com -p hogefuga
+退室中 -> 勤務中
+```
+
+### 打刻ステータス確認
+```bash
 $ jobcan status
 ステータス : 退室中
 
-$ jobcan -e test@test.com -p hogefuga
-退室中 -> 勤務中
-
 $ jobcan s -e test@test.com -p hogefuga
 ステータス : 勤務中
+```
 
+### 有給休暇申請
+```bash
 $ jobcan pto "2020-10-10" "2020-10-10"
 有給休暇申請 : 2020-10-10 ~ 2020-10-10
 
