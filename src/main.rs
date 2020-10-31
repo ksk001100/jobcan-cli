@@ -220,39 +220,25 @@ fn main() {
     let args: Vec<String> = ::std::env::args().collect();
 
     let email_flag = Flag::new("email", FlagType::String)
-        .usage("jobcan --email(-e) [email]")
+        .description("email flag")
         .alias("e");
     let pass_flag = Flag::new("email", FlagType::String)
-        .usage("jobcan --password(-p) [password]")
+        .description("password flag")
         .alias("p");
 
     let status_command = Command::new("status")
+        .description("Show current attendance status command")
         .usage("jobcan status")
-        .flag(
-            email_flag
-                .clone()
-                .usage("jobcan status(s) --email(-e) [email]"),
-        )
-        .flag(
-            pass_flag
-                .clone()
-                .usage("jobcan status(s) --password(-p) [password]"),
-        )
+        .flag(email_flag.clone())
+        .flag(pass_flag.clone())
         .action(status_action)
         .alias("s");
 
     let pto_command = Command::new("pto")
+        .description("Paid holidays command")
         .usage("jobcan pto [start_date] [end_date] [reason]")
-        .flag(
-            email_flag
-                .clone()
-                .usage("jobcan pto(p) [start_date] [end_date] [reason] --email(-e) [email]"),
-        )
-        .flag(
-            pass_flag
-                .clone()
-                .usage("jobcan pto(p) [start_date] [end_date] [reason] --password(-p) [password]"),
-        )
+        .flag(email_flag.clone())
+        .flag(pass_flag.clone())
         .action(pto_action)
         .alias("p");
 
