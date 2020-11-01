@@ -222,7 +222,7 @@ fn main() {
     let email_flag = Flag::new("email", FlagType::String)
         .description("email flag")
         .alias("e");
-    let pass_flag = Flag::new("email", FlagType::String)
+    let pass_flag = Flag::new("password", FlagType::String)
         .description("password flag")
         .alias("p");
 
@@ -242,7 +242,7 @@ fn main() {
         .action(pto_action)
         .alias("p");
 
-    let app = App::new(color::blue(env!("CARGO_PKG_NAME")))
+    let app = App::new(color::yellow(env!("CARGO_PKG_NAME")))
         .author(env!("CARGO_PKG_AUTHORS"))
         .description(env!("CARGO_PKG_DESCRIPTION"))
         .usage("jobcan")
