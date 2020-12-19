@@ -50,7 +50,7 @@ impl Jobcan {
     pub fn punch_in(&self, tab: &Arc<Tab>) -> Result<String, failure::Error> {
         let before_status = self.get_status(&tab)?;
 
-        tab.wait_for_element_with_custom_timeout("p#adit-button-push", Duration::from_secs(60))?
+        tab.wait_for_element_with_custom_timeout("span#adit-button-push", Duration::from_secs(60))?
             .click()?;
         thread::sleep(Duration::from_secs(3));
 

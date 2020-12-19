@@ -1,5 +1,5 @@
-mod lib;
 mod actions;
+mod lib;
 
 use seahorse::{color, App, Command, Flag, FlagType};
 use std::env;

@@ -1,9 +1,9 @@
+use crate::lib::Jobcan;
 use chrono::prelude::*;
 use headless_chrome::Browser;
+use seahorse::{color, Context};
 use spinners::{Spinner, Spinners};
 use std::{env, process};
-use seahorse::{color, Context};
-use crate::lib::Jobcan;
 
 pub fn punch_in_action(c: &Context) {
     let sp = Spinner::new(Spinners::Moon, color::green("Waiting..."));
@@ -110,7 +110,7 @@ pub fn pto_action(c: &Context) {
     let tab = browser.wait_for_initial_tab().unwrap();
 
     match jobcan.login(&tab) {
-        Ok(_) => match jobcan.pto(&tab, start_date.clone(), end_date.clone(), reason) {
+        Ok(_) => match jobcan.pto(&tab, start_date, end_date, reason) {
             Ok(_) => println!(
                 "\r有給休暇申請 : {} ~ {}",
                 color::green(start_date),
