@@ -38,7 +38,7 @@ impl Jobcan {
 
     pub fn get_status(&self, tab: &Arc<Tab>) -> Result<String, failure::Error> {
         let status = tab
-            .wait_for_element_with_custom_timeout("div#working_status", Duration::from_secs(60))?
+            .wait_for_element_with_custom_timeout("h3#working_status", Duration::from_secs(60))?
             .get_description()?
             .find(|n| n.node_name == "#text")
             .unwrap()
