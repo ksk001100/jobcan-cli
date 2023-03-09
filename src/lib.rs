@@ -1,6 +1,7 @@
 use chrono::{prelude::*, Local};
 use headless_chrome::Tab;
 use seahorse::color;
+use std::error::Error;
 use std::{sync::Arc, thread, time::Duration};
 
 pub struct Jobcan {
@@ -13,7 +14,7 @@ impl Jobcan {
         Self { email, password }
     }
 
-    pub fn login(&self, tab: &Arc<Tab>) -> Result<(), failure::Error> {
+    pub fn login(&self, tab: &Arc<Tab>) -> Result<(), Box<dyn Error>> {
         let url = "https://id.jobcan.jp/users/sign_in?app_key=atd";
 
         tab.navigate_to(url)?;
@@ -29,14 +30,15 @@ impl Jobcan {
         tab.wait_for_element_with_custom_timeout("input.form__login", Duration::from_secs(60))?
             .click()?;
 
-        tab.wait_for_url("https://ssl.jobcan.jp/employee")?;
+        // in https://ssl.jobcan.jp/employee
+        tab.wait_for_element_with_custom_timeout("h3#working_status", Duration::from_secs(20))?;
 
         thread::sleep(Duration::from_secs(2));
 
         Ok(())
     }
 
-    pub fn get_status(&self, tab: &Arc<Tab>) -> Result<String, failure::Error> {
+    pub fn get_status(&self, tab: &Arc<Tab>) -> Result<String, Box<dyn Error>> {
         let status = tab
             .wait_for_element_with_custom_timeout("h3#working_status", Duration::from_secs(60))?
             .get_description()?
@@ -47,7 +49,7 @@ impl Jobcan {
         Ok(status)
     }
 
-    pub fn punch_in(&self, tab: &Arc<Tab>) -> Result<String, failure::Error> {
+    pub fn punch_in(&self, tab: &Arc<Tab>) -> Result<String, Box<dyn Error>> {
         let before_status = self.get_status(&tab)?;
 
         tab.wait_for_element_with_custom_timeout("#adit-button-push", Duration::from_secs(60))?
@@ -69,7 +71,7 @@ impl Jobcan {
         start_date: NaiveDate,
         end_date: NaiveDate,
         reason: String,
-    ) -> Result<(), failure::Error> {
+    ) -> Result<(), Box<dyn Error>> {
         tab.wait_for_element_with_custom_timeout("a#menu_order_img", Duration::from_secs(10))?
             .click()?;
 
