@@ -6,7 +6,7 @@ edition = "2018"
 description = "ジョブカン CLI"
 
 [dependencies]
-headless_chrome = { git = "https://github.com/ksk001100/rust-headless-chrome", branch = "feature/add-wait-for-url" }
+headless_chrome = "1.0.5"
 failure = "0.1.7"
 seahorse = "1.1"
 spinners = "1.2.0"
