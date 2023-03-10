@@ -72,3 +72,43 @@ $ jobcan pto "2020-10-10" "2020-10-10"
 $ jobcan p "2020-07-20" "2020-07-23" "夏休み"
 有給休暇申請 : 2020-07-20 ~ 2020-07-23
 ```
+
+### トラブルシューティング
+
+#### ビルド時にエラーが発生する場合
+
+> **Warning**
+> Apple M1 環境でビルドする場合、`Xcode command line tools`をインストールしていないと、ビルド実行時に以下のエラーが発生します
+
+```
+error: could not compile `libc` due to previous error
+```
+
+そのため、ビルドする前に以下コマンドを実行する必要があります
+
+```
+xcode-select --install
+```
+
+#### ビルド時のフェッチに失敗する場合
+
+`cargo`がデフォルトで`ssh-agent`を使用してフェッチしているので、Rust のインストール直後にビルドすると、以下のようにエラーが発生することがあります
+
+```
+cargo install --path .
+...
+Caused by:
+  ERROR: You're using an RSA key with SHA-1, which is no longer allowed. Please use a newer client or a different key type.
+  Please see https://github.blog/2021-09-01-improving-git-protocol-security-github/ for more information.
+
+  ; class=Ssh (23); code=Eof (-20)
+```
+
+許容されている暗号化方式で SSH 鍵を再作成する方法もありますが、以下のコマンドを実行して git 経由でフェッチするように変更することもできます
+
+```
+cat <<EOF >> ~/.cargo/config
+[net]
+git-fetch-with-cli = true
+EOF
+```
