@@ -9,7 +9,7 @@ pub fn punch_in_action(c: &Context) {
     let sp = Spinner::new(Spinners::Moon, color::green("Waiting..."));
     let jobcan = Jobcan::new(email(c), password(c));
     let browser = Browser::default().unwrap();
-    let tab = browser.wait_for_initial_tab().unwrap();
+    let tab = browser.new_tab().unwrap();
 
     match jobcan.login(&tab) {
         Ok(_) => match jobcan.punch_in(&tab) {
@@ -32,7 +32,7 @@ pub fn status_action(c: &Context) {
     let sp = Spinner::new(Spinners::Moon, color::green("Waiting..."));
     let jobcan = Jobcan::new(email(c), password(c));
     let browser = Browser::default().unwrap();
-    let tab = browser.wait_for_initial_tab().unwrap();
+    let tab = browser.new_tab().unwrap();
 
     match jobcan.login(&tab) {
         Ok(_) => match jobcan.get_status(&tab) {
@@ -107,7 +107,7 @@ pub fn pto_action(c: &Context) {
 
     let jobcan = Jobcan::new(email(c), password(c));
     let browser = Browser::default().unwrap();
-    let tab = browser.wait_for_initial_tab().unwrap();
+    let tab = browser.new_tab().unwrap();
 
     match jobcan.login(&tab) {
         Ok(_) => match jobcan.pto(&tab, start_date, end_date, reason) {
